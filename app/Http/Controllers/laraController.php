@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\lara;
 use App\Models\fileup;
+use App\Models\cartview;
+use App\Models\catmodel;
 
 class laraController extends Controller
 {
@@ -156,23 +158,94 @@ class laraController extends Controller
     $names=lara::where('name','LIKE',"%{$search}%")->get();
    return view('search_results',compact('names'));
  }
+ //dropdown search
  public function select_searchshow() //items displayed inside the select box for searching
     {
         $items=lara::all();
         return view('select_search',compact('items'));
     } 
-    public function search(Request $request) //selected item is check wheteher it is available or not
+    public function searchput(Request $request) //selected item is check wheteher it is available or not
     {
       $inputitem=$request->input('nam') ;
       echo $inputitem;
 
       //fetch the database based on selected item
       $selecteditem=lara::find($inputitem);
-
+        //echo $selecteditem;
       return view('searchoutput',compact('selecteditem'));
 
     }
- 
+     public function add()
+     {
+        return view('add');
+     }
+     public function adddetailtAction(Request $req)
+     {
+        $pname=$req->input('name');
+        $category=$req->input('category');
+        $size=$req->input('size');
+        $price=$req->input('price');
+
+        $dats=[
+            'prodname'=>$pname,
+            'category'=>$category,
+            'size'=>$size,
+            'price'=>$price
+              ];
+                cartview::insert($dats);
+                return redirect('/add');
+     }
+     public function selectboxsearch()
+     {
+        $content=cartview::select('category')->get();
+        return view('selectboxsearch',['cate'=>$content]);
+     }
+     public function catsearch(Request $req)
+     {
+        $selected=$req->input('cat');
+        echo $selected;
+        
+        $searched=cartview::find($selected);
+echo $searched;
+        return view('category_result',compact('searched'));
+        
+     }
+     public function filing()
+     {
+        return view('filing');
+     }
+    //  public function dowloadval()
+    //  {
+    //     $filepath=public_path('/documents/to/img/Aadujeevitham.pdf');
+    //     return response()->download($filepath);
+    //  }
+    public function linkpage()
+    {
+        return view('linkpage');
+    }
+    public function novelpage()
+    {
+        $novelcate['ncat']=catmodel::where('category','Novel')->get();
+        return view('novelpage',$novelcate);
+    }
+    public function horropage()
+    {
+        $horrorcate['hcat']=catmodel::where('category','Horror')->get();
+        return view('horropage',$horrorcate);
+    }
+    public function travel()
+    {
+        $travelcate['travelcat']=catmodel::where('category','Travelogue')->get();
+        return view('travel',$travelcate);
+    }
+    public function novels($id)
+    {
+         $idnovels['novel_files']=fileups::where('id',$id)->get();
+        // return view('novels',$idnovels);
+        $file = storage_path('app/public//') . $id . '.pdf';
+
+    }
+    
     /**
      * Show the form for editing the specified resource.
      */

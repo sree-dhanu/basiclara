@@ -30,5 +30,17 @@ route::post('/fileAction',[laraController::class,'fileAction']);
  route::get('/searching',[laraController::class,'searching']);
  route::post('/searchingAction',[laraController::class,'searchingAction']);
  route::get('/select_search',[laraController::class,'select_searchshow'])->name('select_searchshow');
- route::get('/searchoutput',[laraController::class,'search'])->name('search');
+ route::get('/searchoutput',[laraController::class,'searchput'])->name('search');
+ route::get('/add',[laraController::class,'add']);
+ route::post('/adddetailtAction',[laraController::class,'adddetailtAction']);
+ route::get('/selectboxsearch',[laraController::class,'selectboxsearch'])->name('selectboxsearch');
+ route::get('/categorysearch',[laraController::class,'catsearch'])->name('categorysearch');
+ route::post('/category_result',[laraController::class,'category_result']);
+//  route::get('/filing',[laraController::class,'filing']);
+//  route::get('/downloadval',[laraController::class,'downloadval']);
+route::get('/linkpage',[laraController::class,'linkpage']);
+route::get('/novelpage',[laraController::class,'novelpage']);
+route::get('/horropage',[laraController::class,'horropage']);
+route::get('/travel',[laraController::class,'travel']);
+route::get('/novels',[laraController::class,'novels']);
 ?>
